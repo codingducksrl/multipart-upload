@@ -1,0 +1,23 @@
+name: Publish Package to npmjs
+on:
+    release:
+        types: [ published ]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        environment: prod
+        permissions:
+            contents: read
+            id-token: write
+        steps:
+            -   uses: actions/checkout@v6
+            # Setup .npmrc file to publish to npm
+            -   uses: actions/setup-node@v6
+                with:
+                    node-version: '22.x'
+                    registry-url: 'https://registry.npmjs.org'
+                    cache: 'npm'
+            -   run: npm install
+            -   run: npx nx run-many -t publish --provenance --access public
+                env:
+                    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
