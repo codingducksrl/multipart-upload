@@ -13,7 +13,7 @@ npm install @codingducksrl/multipart-upload
 import { MultipartUpload, hash } from '@codingducksrl/multipart-upload'
 
 const uploader = new MultipartUpload(
-    async (id: string, maxPartSize: number, fileSize: number, metadata: any)=>{
+    async (id, maxPartSize, fileSize, metadata)=>{
         // Make the request to the backend to initiate the multipart upload
         // It should return an object with uploadId and presignedUrls for each part
         return {
@@ -28,7 +28,7 @@ const uploader = new MultipartUpload(
             ]
         }
     },
-    async (id: string, uploadId: string, parts: Array<{part_number: number, etag: string}>, metadata: any)=>{
+    async (id, uploadId, parts, metadata)=>{
         // Make the request to the backend to complete the multipart upload
     },
     {} // Options
