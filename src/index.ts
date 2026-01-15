@@ -1,5 +1,3 @@
-const helloWorld = (): string => {
-    return "Hello, World!";
-}
+export {MultipartUpload} from "./MultipartUpload";
 
-export { helloWorld };
+export * from "./types";

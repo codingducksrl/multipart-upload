@@ -16,6 +16,9 @@
         "type": "git",
         "url": "https://github.com/codingducksrl/multipart-upload.git"
     },
+    "files": [
+        "dist"
+    ],
     "types": "./dist/index.d.ts",
     "main": "./dist/index.umd.js",
     "module": "./dist/index.es.js",
@@ -25,13 +28,14 @@
             "require": "./dist/index.umd.js"
         }
     },
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com"
-    },
     "devDependencies": {
         "@types/node": "^25.0.8",
         "typescript": "~5.9.3",
         "vite": "^7.2.4",
         "vite-plugin-dts": "^4.5.4"
+    },
+    "dependencies": {
+        "axios": "^1.7.0",
+        "axios-retry": "^4.0.0"
     }
 }
