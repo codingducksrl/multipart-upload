@@ -64,6 +64,8 @@ export class MultipartUpload<METADATA = never> {
 
         const promises: Promise<UploadedPart>[] = [];
 
+        const partProgress: { [partNumber: number]: number } = {};
+
         const progressIncrement = 85 / startResponse.parts.length;
         for (let i = 0; i < startResponse.parts.length; i++) {
             const part = startResponse.parts[i];
@@ -75,9 +77,14 @@ export class MultipartUpload<METADATA = never> {
                     'Content-Type': file.type,
                     "x-amz-sdk-checksum-algorithm": this.awsChecksumAlgorithm,
                     "x-amz-checksum-sha256": hashPart.hash
-                }
+                },
+                onUploadProgress: (progressEvent) => {
+                    partProgress[part.part_number] = (progressEvent.loaded / (progressEvent.total ?? filePart.size)) * progressIncrement;
+                    this.notifyProgress(id, progress, partProgress);
+                },
             }).then((response) => {
-                progress = this.notifyProgress(id, progress + progressIncrement);
+                partProgress[part.part_number] = progressIncrement;
+                progress = this.notifyProgress(id, progress, partProgress);
                 return {
                     partNumber: part.part_number,
                     hash: hashPart.hash,
@@ -96,9 +103,14 @@ export class MultipartUpload<METADATA = never> {
         this.progressListener = listener;
     }
 
-    protected notifyProgress(id: string, progress: number) {
+    protected notifyProgress(id: string, progress: number, partProgress?: { [partNumber: number]: number }): number {
+        let finalProgress = progress;
+        if (partProgress) {
+            finalProgress = Object.values(partProgress).reduce((a, b) => a + b, 0) + progress;
+        }
+
         if (this.progressListener) {
-            this.progressListener(id, progress);
+            this.progressListener(id, finalProgress);
         }
         return progress;
     }
