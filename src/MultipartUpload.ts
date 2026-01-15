@@ -95,7 +95,7 @@ export class MultipartUpload<METADATA = never> {
             promises.push(request)
         }
         const uploadedParts = await Promise.all(promises);
-        await this.completeUploadAction(id, startResponse.upload_id, uploadedParts, metadata);
+        await this.completeUploadAction(id, startResponse.upload_id, uploadedParts, hashResponse.hash, metadata);
         this.notifyProgress(id, 100)
     }
 

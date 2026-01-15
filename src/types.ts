@@ -28,7 +28,7 @@ type StartUploadResponse = {
 
 
 export type StartUploadAction<T> = (id: string, maxPartSize: number, fileSize: number, metadata: T) => Promise<StartUploadResponse>
-export type CompleteUploadAction<T> = (id: string, uploadId: string, parts: UploadedPart[], metadata: T) => Promise<void>
+export type CompleteUploadAction<T> = (id: string, uploadId: string, parts: UploadedPart[], checksum: string, metadata: T) => Promise<void>
 
 export type UploadedPart = {
     partNumber: number,

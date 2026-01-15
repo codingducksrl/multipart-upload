@@ -9,11 +9,12 @@ npm install @codingducksrl/multipart-upload
 ```
 
 ## Usage
+
 ```typescript
-import { MultipartUpload, hash } from '@codingducksrl/multipart-upload'
+import {MultipartUpload} from '@codingducksrl/multipart-upload'
 
 const uploader = new MultipartUpload(
-    async (id, maxPartSize, fileSize, metadata)=>{
+    async (id, maxPartSize, fileSize, metadata) => {
         // Make the request to the backend to initiate the multipart upload
         // It should return an object with uploadId and presignedUrls for each part
         return {
@@ -28,7 +29,7 @@ const uploader = new MultipartUpload(
             ]
         }
     },
-    async (id, uploadId, parts, metadata)=>{
+    async (id, uploadId, parts, checksum, metadata) => {
         // Make the request to the backend to complete the multipart upload
     },
     {} // Options
@@ -36,7 +37,7 @@ const uploader = new MultipartUpload(
 
 
 const file = /* get your File or Blob object */
-await uploader.upload('unique-id', file)
+    await uploader.upload('unique-id', file)
 ```
 
 ## Options
