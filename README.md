@@ -21,7 +21,7 @@ const uploader = new MultipartUpload(
             parts: [
                 {
                     part_number: 1, // Part number
-                    presigned_url: 'https://...', // Presigned URL for part 1
+                    url: 'https://...', // Presigned URL for part 1
                     start: 0, // Start byte
                     end: maxPartSize - 1 // End byte
                 }
@@ -47,4 +47,3 @@ The `MultipartUpload` class accepts an options object with the following propert
 | `maxFilePartSize` | Maximum size of each part in bytes                | 100 * 1024 * 1024 (100MiB)                                |
 | `algorithm`       | Hashing algorithm to use                          | 'SHA-256'                                                 |
 | `retryOptions`    | `axios-retry` options for retrying failed uploads | `{ retries: 3, retryDelay: axiosRetry.exponentialDelay }` |
-
